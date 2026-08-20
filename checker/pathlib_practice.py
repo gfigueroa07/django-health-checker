@@ -39,3 +39,13 @@ for subdir in p.iterdir():
         print(subdir)
 
 # # print(f"Your current Path is - {Path.cwd()}")
+
+# Constructing a known path
+manage_path = Path.home() / 'job_board' / 'manage.py'
+if manage_path.exists():
+    print(f"{manage_path}\n manage.py path found.")
+else:
+    print("manage.py path NOT found.")
+    
+# Move up 'parent' path
+print(manage_path.parent)
