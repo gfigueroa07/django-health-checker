@@ -8,7 +8,7 @@ from pathlib import Path
 # Returns those three facts in a dictionary.
 # Does not print anything.
 
-def checker(user_path):
+def path_inspector(user_path):
     result = {
         "exists": user_path.exists(),
         "is_file": user_path.is_file(),
@@ -22,7 +22,25 @@ job_board = Path('C:/Users/guill/job_board')
 manage_py = Path("C:/Users/guill/job_board/manage.py")
 nonexistent = Path.home() / "Desktop"
 
-# print(checker(some_path))
-print(checker(job_board))
-print(checker(manage_py))
-print(checker(nonexistent))
+# print(path_inspector(some_path))
+print(path_inspector(job_board))
+print(path_inspector(manage_py))
+print(path_inspector(nonexistent))
+
+def django_validator(project_path):
+    evidence = {
+            "exists": project_path.exists(),
+            "is_file": project_path.is_file(),
+            "is_directory": project_path.is_dir(),
+        }
+    
+    manage_path = Path(project_path) / "manage.py"
+    settings_path = Path(project_path) / "settings.py"
+    urls_path = Path(project_path) / "urls.py"
+    print(path_inspector(manage_path))
+    print(path_inspector(settings_path))
+    print(path_inspector(urls_path))
+    
+    
+project_path = Path(input('path\n'))
+print(django_validator(project_path))
