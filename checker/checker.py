@@ -33,14 +33,14 @@ def django_validator(project_path):
             "is_file": project_path.is_file(),
             "is_directory": project_path.is_dir(),
         }
-    
-    manage_path = Path(project_path) / "manage.py"
-    settings_path = Path(project_path) / "settings.py"
-    urls_path = Path(project_path) / "urls.py"
+    project_path = Path(input('path\n'))
+    manage_path = project_path / "manage.py"
+    settings_path = project_path / "settings.py"
+    urls_path = project_path / "urls.py"
     print(path_inspector(manage_path))
     print(path_inspector(settings_path))
     print(path_inspector(urls_path))
+    return evidence
     
     
-project_path = Path(input('path\n'))
-print(django_validator(project_path))
+print(django_validator(manage))
