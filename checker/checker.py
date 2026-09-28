@@ -18,29 +18,36 @@ def path_inspector(user_path):
     
 # some_path = Path(input("Enter a path:\n").strip())
 
-job_board = Path('C:/Users/guill/job_board')
-manage_py = Path("C:/Users/guill/job_board/manage.py")
-nonexistent = Path.home() / "Desktop"
+# job_board = Path('C:/Users/guill/job_board')
+# manage_py = Path("C:/Users/guill/job_board/manage.py")
+# nonexistent = Path.home() / "Desktop"
 
 # print(path_inspector(some_path))
-print(path_inspector(job_board))
-print(path_inspector(manage_py))
-print(path_inspector(nonexistent))
+# print(path_inspector(job_board))
+# print(path_inspector(manage_py))
+# print(path_inspector(nonexistent))
 
 def django_validator(project_path):
-    evidence = {
-            "exists": project_path.exists(),
-            "is_file": project_path.is_file(),
-            "is_directory": project_path.is_dir(),
-        }
-    project_path = Path(input('path\n'))
+
     manage_path = project_path / "manage.py"
     settings_path = project_path / "settings.py"
     urls_path = project_path / "urls.py"
-    print(path_inspector(manage_path))
-    print(path_inspector(settings_path))
-    print(path_inspector(urls_path))
+    
+    for entry in project_path.iterdir():
+        if entry.is_dir():
+            path_inspector(entry / "settings.py")
+            path_inspector(entry / "urls.py")
+            path_inspector(entry / "models.py")
+            path_inspector(entry / "views.py")
+        else:
+            print(f"NOT DIR: {entry}")
+        
+    evidence = {
+                "manage_py": path_inspector(manage_path),
+                "settings_py": path_inspector(settings_path),
+                "urls_py": path_inspector(urls_path),
+            } 
+    
     return evidence
-    
-    
-print(django_validator(manage))
+
+print(django_validator(Path("C:/Users/guill/job_board")))
