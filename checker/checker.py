@@ -41,9 +41,9 @@ ignored = {
 def django_validator(project_path):
 
     manage_path = project_path / "manage.py"
-    settings_path = project_path / "settings.py"
-    urls_path = project_path / "urls.py"
-    
+    project_evidence = {
+        "manage_py": path_inspector(manage_path),
+    }
     evidence = {}
     
     for entry in project_path.iterdir():
@@ -54,6 +54,21 @@ def django_validator(project_path):
                 'urls_py': path_inspector(entry / "urls.py"),
                 'models_py': path_inspector(entry / "models.py"),
             }
+            
+    manage_exists = project_evidence["manage_py"]["exists"]
+    has_settings = False
+    has_app_evidence = False    
+    is_django = False
+                
+    for directory, files in evidence.items():
+        if files["settings_py"]["exists"]:
+            has_settings = True
+        if files['views_py']["exists"] or files["urls_py"]["exists"] or files["models_py"]["exists"]:
+            has_app_evidence = True
+    if manage_exists and has_settings and has_app_evidence:
+        is_django = True
+        return is_django
+                    
     return evidence
 
-print(django_validator(Path("C:/Users/guill/job_board")))
+print(django_validator(Path("C:/Users/guill/views.py")))
