@@ -26,6 +26,17 @@ def path_inspector(user_path):
 # print(path_inspector(job_board))
 # print(path_inspector(manage_py))
 # print(path_inspector(nonexistent))
+ignored = {
+    ".git",
+    ".venv",
+    ".vscode",
+    "node_modules",
+    "uploads",
+    "cache",
+    "static",
+    "staticfiles",
+    "media",
+}
 
 def django_validator(project_path):
 
@@ -33,21 +44,16 @@ def django_validator(project_path):
     settings_path = project_path / "settings.py"
     urls_path = project_path / "urls.py"
     
-    for entry in project_path.iterdir():
-        if entry.is_dir():
-            path_inspector(entry / "settings.py")
-            path_inspector(entry / "urls.py")
-            path_inspector(entry / "models.py")
-            path_inspector(entry / "views.py")
-        else:
-            print(f"NOT DIR: {entry}")
-        
-    evidence = {
-                "manage_py": path_inspector(manage_path),
-                "settings_py": path_inspector(settings_path),
-                "urls_py": path_inspector(urls_path),
-            } 
+    evidence = {}
     
+    for entry in project_path.iterdir():
+        if entry.is_dir() and entry.name not in ignored:
+            evidence[entry] = {
+                'settings_py': path_inspector(entry / "settings.py"),
+                'views_py': path_inspector(entry / "views.py"),
+                'urls_py': path_inspector(entry / "urls.py"),
+                'models_py': path_inspector(entry / "models.py"),
+            }
     return evidence
 
 print(django_validator(Path("C:/Users/guill/job_board")))
